@@ -1,16 +1,52 @@
-# ekos
+# EKOS - Kırıkkale University Econometrics and E-Sports Community Mobile Application
 
-A new Flutter project.
+## About the Project  
+This Flutter-based mobile application is developed for the Kırıkkale University Econometrics and E-Sports Community (EKOS). The app provides a platform that covers community events, tournaments, up-to-date economic information, and social media integration.
 
-## Getting Started
+## Features  
+- **Community News**: Access the latest community news.  
+- **Event Calendar**: Track upcoming events.  
+- **Tournaments and Results**: Get information about tournaments and winners.  
+- **Teams and Players**: Explore teams and players within the community.  
+- **Member Registration Form**: Online application form for new members.  
+- **Member Profiles**: Access community member profiles.  
+- **Social Media**: Access the community's social media accounts.  
+- **Tournament Application Registration**: Apply to participate in tournaments.  
+- **Advisors**: Information about academic advisors.  
+- **Feedback**: Leave feedback about the app and the community.  
+- **Latest Economy Updates**: Follow economic developments.  
+- **Live Market**: Live data from financial markets.  
+- **Community Managers**: Access community managers.  
+- **Surveys**: Surveys for user feedback.  
+- **Join the Community**: Easy registration for new members.  
+- **Sponsors and Ads**: View community sponsors.  
+- **Notifications**: Receive notifications about important announcements and events.  
+- **Offline Mode**: Some features available without an internet connection.  
 
-This project is a starting point for a Flutter application.
+## Technologies  
+- **Flutter** (Developed using the Dart language)  
+- **Firebase** (For notifications, database, and authentication)  
+- **Permission Handler** (For managing user permissions)  
+- **Hive** (For local data storage)  
 
-A few resources to get you started if this is your first Flutter project:
+## Installation  
+1. Make sure Flutter is installed on your system: [Flutter Installation](https://flutter.dev/docs/get-started/install)  
+2. Integrate your Firebase project with your Flutter app.  
+3. Install the required packages using the following command:  
+   ```bash
+   flutter pub get
+   ```
+4. Run the application:  
+   ```bash
+   flutter run
+   ```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Firebase Notifications  
+The app supports push notifications via Firebase Cloud Messaging (FCM). Ensure the correct Firebase integration and add the **google-services.json** file to your project settings.  
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Contributing  
+Developers who want to contribute can submit pull requests or suggest new features.  
+
+## License  
+This project is licensed under the MIT License. For more details, check the `LICENSE` file.
+
