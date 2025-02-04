@@ -50,3 +50,5 @@ class _LiveMarketPageState extends State<LiveMarketPage> {
     );
   }
 }
+
+//Our API code is ready, but I cannot use it. It seems that integrating it into the Dart language will be a difficult process.
