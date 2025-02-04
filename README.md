@@ -41,6 +41,11 @@ This Flutter-based mobile application is developed for the Kırıkkale Universit
    flutter run
    ```
 
+## Recommended Versions  
+- **Java 17** (Recommended version for compatibility)  
+- **Gradle 8.12** (Recommended version for build system)  
+- **Android Studio (Latest Version)** (For best development experience)  
+
 ## Firebase Notifications  
 The app supports push notifications via Firebase Cloud Messaging (FCM). Ensure the correct Firebase integration and add the **google-services.json** file to your project settings.  
 
