@@ -20,6 +20,7 @@ import 'poll.dart';
 import 'member_join.dart';
 import 'sponsors_page.dart';
 import 'sponsor_ads_page.dart';
+import 'update_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -289,6 +290,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   'Sponsor Reklamları', // Yeni buton ismi
                   Icons.business, // İş simgesi kullanıldı
                   const SponsorAdsPage(), // Yeni Sponsor Ads sayfasına yönlendirecek
+                ),
+                _buildGridButton(
+                  context,
+                  'Güncelleme', // Yeni buton ismi
+                  Icons.update, // Güncelleme simgesi kullanıldı
+                  UpdatePage(), // UpdatePage sayfasına yönlendirecek
                 ),
               ],
             ),
