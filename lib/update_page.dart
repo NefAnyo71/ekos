@@ -10,6 +10,7 @@ class UpdatePage extends StatefulWidget {
 class _UpdatePageState extends State<UpdatePage> {
   final DatabaseReference _database = FirebaseDatabase.instance.ref();
   List<Map<String, String>> _updates = [];
+  final String _currentVersion = "1.2.1";
 
   @override
   void initState() {
@@ -76,69 +77,86 @@ class _UpdatePageState extends State<UpdatePage> {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: _updates.isEmpty
-                ? Text(
-                    'Güncellemeler yükleniyor...',
-                    style: TextStyle(fontSize: 18, color: Colors.black),
-                  )
-                : ListView.builder(
-                    itemCount: _updates.length,
-                    itemBuilder: (ctx, index) {
-                      final description = _updates[index]['description']!;
-                      final hasURL = description.contains('https://');
-                      return Card(
-                        margin: EdgeInsets.symmetric(vertical: 10),
-                        elevation: 8,
-                        color: Colors.white,
-                        shadowColor: Colors.blueGrey,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                _updates[index]['title']!,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blueAccent,
-                                ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Güncel Sürümünüz: $_currentVersion',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(height: 20),
+                _updates.isEmpty
+                    ? Text(
+                        'Güncellemeler yükleniyor...',
+                        style: TextStyle(fontSize: 18, color: Colors.black),
+                      )
+                    : Expanded(
+                        child: ListView.builder(
+                          itemCount: _updates.length,
+                          itemBuilder: (ctx, index) {
+                            final description = _updates[index]['description']!;
+                            final hasURL = description.contains('https://');
+                            return Card(
+                              margin: EdgeInsets.symmetric(vertical: 10),
+                              elevation: 8,
+                              color: Colors.white,
+                              shadowColor: Colors.blueGrey,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
                               ),
-                              SizedBox(height: 10),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      description,
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      _updates[index]['title']!,
                                       style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black87,
-                                        decoration: hasURL
-                                            ? TextDecoration.underline
-                                            : TextDecoration.none,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.blueAccent,
                                       ),
                                     ),
-                                  ),
-                                  if (hasURL)
-                                    IconButton(
-                                      icon: Icon(Icons.copy,
-                                          color: Colors.blueAccent),
-                                      onPressed: () {
-                                        _copyToClipboard(description);
-                                      },
+                                    SizedBox(height: 10),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            description,
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black87,
+                                              decoration: hasURL
+                                                  ? TextDecoration.underline
+                                                  : TextDecoration.none,
+                                            ),
+                                          ),
+                                        ),
+                                        if (hasURL)
+                                          IconButton(
+                                            icon: Icon(Icons.copy,
+                                                color: Colors.blueAccent),
+                                            onPressed: () {
+                                              _copyToClipboard(description);
+                                            },
+                                          ),
+                                      ],
                                     ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ],
-                          ),
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
+                      ),
+              ],
+            ),
           ),
         ),
       ),
