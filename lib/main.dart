@@ -21,6 +21,7 @@ import 'member_join.dart';
 import 'sponsors_page.dart';
 import 'sponsor_ads_page.dart';
 import 'update_page.dart';
+import 'partnerships.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -296,6 +297,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   'Güncelleme', // Yeni buton ismi
                   Icons.update, // Güncelleme simgesi kullanıldı
                   UpdatePage(), // UpdatePage sayfasına yönlendirecek
+                ),
+                _buildGridButton(
+                  context,
+                  'İşbirliklerimiz', // Yeni buton ismi
+                  Icons.group, // Grup veya işbirliği simgesi kullanıldı
+                  PartnershipsPage(), // PartnershipsPage sayfasına yönlendirecek
                 ),
               ],
             ),
