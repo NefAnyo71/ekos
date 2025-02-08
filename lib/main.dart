@@ -224,7 +224,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   context,
                   'Üye Profilleri',
                   Icons.person,
-                  const MemberProfilesPage(),
+                  const MemberProfilesAccountPage(),
                 ),
                 _buildGridButton(
                   context,

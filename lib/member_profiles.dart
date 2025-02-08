@@ -1,60 +1,74 @@
 import 'package:flutter/material.dart';
-import 'member_profiles_account.dart'; // Yeni sayfa için import
+import 'package:firebase_auth/firebase_auth.dart';
 
-class MemberProfilesPage extends StatefulWidget {
-  const MemberProfilesPage({super.key});
+class MemberProfilesAccountPage extends StatefulWidget {
+  const MemberProfilesAccountPage({Key? key}) : super(key: key);
 
   @override
-  _MemberProfilesPageState createState() => _MemberProfilesPageState();
+  _MemberProfilesAccountPageState createState() =>
+      _MemberProfilesAccountPageState();
 }
 
-class _MemberProfilesPageState extends State<MemberProfilesPage> {
-  final TextEditingController _identifierController = TextEditingController();
+class _MemberProfilesAccountPageState extends State<MemberProfilesAccountPage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool _loading = false;
+  bool isLoading = false;
 
-  Future<void> _fetchUserData() async {
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  void _login() async {
     setState(() {
-      _loading = true;
+      isLoading = true;
     });
 
     try {
-      await Future.delayed(
-          const Duration(seconds: 2)); // Simulate a network call
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              const MemberProfilesAccountPage(), // Yeni sayfaya yönlendirme
-        ),
+      if (userCredential.user != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                UserProfilePage(userEmail: userCredential.user!.email!),
+          ),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      String errorMessage;
+
+      switch (e.code) {
+        case 'invalid-email':
+          errorMessage = "Geçersiz e-posta adresi.";
+          break;
+        case 'user-disabled':
+          errorMessage = "Kullanıcı devre dışı bırakılmış.";
+          break;
+        case 'user-not-found':
+          errorMessage = "Kullanıcı bulunamadı.";
+          break;
+        case 'wrong-password':
+          errorMessage = "Şifre hatalı.";
+          break;
+        default:
+          errorMessage = e.message ?? "Bir hata oluştu.";
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage)),
       );
     } finally {
       setState(() {
-        _loading = false;
+        isLoading = false;
       });
-    }
-  }
-
-  Future<void> _resetPassword() async {
-    if (_identifierController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Lütfen email adresinizi girin!')),
-      );
-      return;
-    }
-
-    try {
-      await Future.delayed(
-          const Duration(seconds: 1)); // Simulate a password reset call
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Şifre sıfırlama bağlantısı gönderildi!')),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Şifre sıfırlama hatası meydana geldi')),
-      );
     }
   }
 
@@ -62,55 +76,110 @@ class _MemberProfilesPageState extends State<MemberProfilesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Üye Profilleri'),
+        title: const Text('Üye Profilleri - Hesap Bilgileri'),
         backgroundColor: Colors.blueAccent,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              controller: _identifierController,
+            TextFormField(
+              controller: _emailController,
               decoration: InputDecoration(
-                labelText: 'Email',
-                prefixIcon: const Icon(Icons.person),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                labelText: 'E-posta',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.email),
               ),
+              keyboardType: TextInputType.emailAddress,
             ),
-            const SizedBox(height: 15),
-            TextField(
+            const SizedBox(height: 16),
+            TextFormField(
               controller: _passwordController,
-              obscureText: true,
               decoration: InputDecoration(
                 labelText: 'Şifre',
-                prefixIcon: const Icon(Icons.lock),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.lock),
               ),
+              obscureText: true,
             ),
-            const SizedBox(height: 15),
-            ElevatedButton.icon(
-              onPressed: _fetchUserData,
-              icon: const Icon(Icons.login),
-              label: const Text('Giriş Yap'),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: isLoading ? null : _login,
+              child: isLoading
+                  ? const CircularProgressIndicator()
+                  : const Text('Giriş Yap'),
               style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                backgroundColor: Colors.blueAccent,
+                foregroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 32),
               ),
             ),
-            const SizedBox(height: 10),
-            TextButton(
-              onPressed: _resetPassword,
-              child: const Text('Şifremi Unuttum'),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class UserProfilePage extends StatelessWidget {
+  final String userEmail;
+
+  const UserProfilePage({Key? key, required this.userEmail}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Kullanıcı Profili'),
+        backgroundColor: Colors.blueAccent,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Hoş geldiniz, $userEmail',
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            _loading ? const CircularProgressIndicator() : Container(),
+            const Text(
+              'Turnuva Geçmişi:',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Expanded(
+              child: ListView(
+                children: const [
+                  ListTile(
+                    title: Text('Turnuva 1 - 2024'),
+                    subtitle: Text('Durum: Katıldı'),
+                  ),
+                  ListTile(
+                    title: Text('Turnuva 2 - 2023'),
+                    subtitle: Text('Durum: Kazandı'),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'Kullanıcı Logları:',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Expanded(
+              child: ListView(
+                children: const [
+                  ListTile(
+                    title: Text('Giriş Yapıldı - 08.02.2025'),
+                  ),
+                  ListTile(
+                    title: Text('Şifre Değiştirildi - 05.02.2025'),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
