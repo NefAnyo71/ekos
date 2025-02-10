@@ -24,8 +24,8 @@ This Flutter-based mobile application is developed for the Kırıkkale Universit
 - **Sponsors and Ads**: View community sponsors.
 - **Notifications**: Receive notifications about important announcements and events.
 - **Offline Mode**: Some features available without an internet connection.
-- **Partnerships: Learn about the community's collaborations and partnerships.
-- **Update: Check for the latest updates and improvements in the app.
+- **Partnerships**: Learn about the community's collaborations and partnerships.
+- **Update**: Check for the latest updates and improvements in the app.
 
 ## Technologies
 
