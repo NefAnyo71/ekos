@@ -66,3 +66,6 @@ Developers who want to contribute can submit pull requests or suggest new featur
 
 This project is licensed under the MIT License. For more details, check the `LICENSE` file.
 
+## APK
+
+You can check the link of my compiled apk file from the 1.2.2 version virus total website. You can download this apk file to download the application to your phone. https://www.dropbox.com/scl/fi/jj55htgmmjuanyoycc0rv/app-release.apk?rlkey=oczpu5w9azqak50dp9zdbb745&st=n6n05jtf&dl=0
