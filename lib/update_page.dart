@@ -10,7 +10,7 @@ class UpdatePage extends StatefulWidget {
 class _UpdatePageState extends State<UpdatePage> {
   final DatabaseReference _database = FirebaseDatabase.instance.ref();
   List<Map<String, String>> _updates = [];
-  final String _currentVersion = "1.2.2";
+  final String _currentVersion = "^1.3.1";
 
   @override
   void initState() {

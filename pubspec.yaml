@@ -28,8 +28,7 @@ dependencies:
   video_player: ^2.2.18
   package_info_plus: ^4.1.0
   dropbox_client: ^1.1.1
-  
-  
+ 
 
   
 dev_dependencies:

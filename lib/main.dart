@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:permission_handler/permission_handler.dart'; // İzinler için ekledik unutma bunu
+import 'package:permission_handler/permission_handler.dart';
 import 'community_news.dart';
 import 'events_calendar.dart';
 import 'advisors.dart';
@@ -22,6 +22,7 @@ import 'sponsors_page.dart';
 import 'sponsor_ads_page.dart';
 import 'update_page.dart';
 import 'partnerships.dart';
+import 'lessons.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -151,7 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: [
                       Image.asset(
                         'assets/images/kkulogo.png',
-                        height: 60.0, // Yüksekliği artırdık
+                        height: 60.0,
                       ),
                       const SizedBox(width: 8.0),
                       const Text(
@@ -166,7 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       const SizedBox(width: 8.0),
                       Image.asset(
                         'assets/images/ekoslogo.png',
-                        height: 60.0, // Yüksekliği artırdık
+                        height: 60.0,
                       ),
                     ],
                   ),
@@ -187,8 +188,8 @@ class _MyHomePageState extends State<MyHomePage> {
             child: GridView.count(
               crossAxisCount: 2,
               padding: const EdgeInsets.all(16.0),
-              crossAxisSpacing: 12.0, // Çapraz boşluk arttırıldı
-              mainAxisSpacing: 12.0, // Ana boşluk arttırıldı
+              crossAxisSpacing: 12.0,
+              mainAxisSpacing: 12.0,
               children: <Widget>[
                 _buildGridButton(
                   context,
@@ -270,7 +271,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 _buildGridButton(
                   context,
-                  'Anket Butonu', // Yeni buton eklendi
+                  'Anket Butonu',
                   Icons.poll,
                   SurveyPage(),
                 ),
@@ -283,26 +284,32 @@ class _MyHomePageState extends State<MyHomePage> {
                 _buildGridButton(
                   context,
                   'Sponsorlar',
-                  Icons.business, // İş simgesi kullanıldı, değiştirebilirsin
-                  SponsorsPage(), // Sayfa adı, kendi sayfanın ismine göre değiştir
+                  Icons.business,
+                  SponsorsPage(),
                 ),
                 _buildGridButton(
                   context,
-                  'Sponsor Reklamları', // Yeni buton ismi
-                  Icons.business, // İş simgesi kullanıldı
-                  const SponsorAdsPage(), // Yeni Sponsor Ads sayfasına yönlendirecek
+                  'Sponsor Reklamları',
+                  Icons.business,
+                  const SponsorAdsPage(),
                 ),
                 _buildGridButton(
                   context,
-                  'Güncelleme', // Yeni buton ismi
-                  Icons.update, // Güncelleme simgesi kullanıldı
-                  UpdatePage(), // UpdatePage sayfasına yönlendirecek
+                  'Güncelleme',
+                  Icons.update,
+                  UpdatePage(),
                 ),
                 _buildGridButton(
                   context,
-                  'İşbirliklerimiz', // Yeni buton ismi
-                  Icons.group, // Grup veya işbirliği simgesi kullanıldı
-                  PartnershipsPage(), // PartnershipsPage sayfasına yönlendirecek
+                  'İşbirliklerimiz',
+                  Icons.group,
+                  PartnershipsPage(),
+                ),
+                _buildGridButton(
+                  context,
+                  'Ekonometri Ders Notları',
+                  Icons.school,
+                  const EkonometriPage(),
                 ),
               ],
             ),
