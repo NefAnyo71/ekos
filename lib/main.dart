@@ -23,6 +23,7 @@ import 'sponsor_ads_page.dart';
 import 'update_page.dart';
 import 'partnerships.dart';
 import 'lessons.dart';
+import 'calculator_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -310,6 +311,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   'Ekonometri Ders Notları',
                   Icons.school,
                   const EkonometriPage(),
+                ),
+                _buildGridButton(
+                  context,
+                  'Hesap Makinesi',
+                  Icons.calculate,
+                  const CalculatorPage(),
                 ),
               ],
             ),

@@ -49,6 +49,7 @@ flutter:
     - assets/images/leader.png
     - assets/images/tufanexe.png
     - assets/videos/spinningfish.mp4
+    - assets/images/güven_aralığı.png
 
 flutter_icons:
   android: true
