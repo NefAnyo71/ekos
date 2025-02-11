@@ -24,6 +24,7 @@ import 'update_page.dart';
 import 'partnerships.dart';
 import 'lessons.dart';
 import 'calculator_page.dart';
+import 'user_guide.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -192,6 +193,12 @@ class _MyHomePageState extends State<MyHomePage> {
               crossAxisSpacing: 12.0,
               mainAxisSpacing: 12.0,
               children: <Widget>[
+                _buildGridButton(
+                  context,
+                  'Kullanım Kılavuzu',
+                  Icons.info,
+                  const UserGuidePage(),
+                ),
                 _buildGridButton(
                   context,
                   'Topluluk Haberleri',

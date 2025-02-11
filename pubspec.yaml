@@ -50,6 +50,7 @@ flutter:
     - assets/images/tufanexe.png
     - assets/videos/spinningfish.mp4
     - assets/images/güven_aralığı.png
+    - assets/images/guide1.png
 
 flutter_icons:
   android: true
