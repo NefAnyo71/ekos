@@ -24,6 +24,8 @@ This Flutter-based mobile application is developed for the Kırıkkale Universit
 - **Sponsors and Ads**: View community sponsors.
 - **Notifications**: Receive notifications about important announcements and events.
 - **Offline Mode**: Some features available without an internet connection.
+- **Partnerships**: Learn about the community's collaborations and partnerships.
+- **Update**: Check for the latest updates and improvements in the app.
 
 ## Technologies
 
@@ -69,3 +71,4 @@ This project is licensed under the MIT License. For more details, check the `LIC
 ## APK
 
 You can check the link of my compiled apk file from the 1.2.2 version virus total website. You can download this apk file to download the application to your phone. https://www.dropbox.com/scl/fi/jj55htgmmjuanyoycc0rv/app-release.apk?rlkey=oczpu5w9azqak50dp9zdbb745&st=n6n05jtf&dl=0
+Version ^1.3.1 is coming soon
