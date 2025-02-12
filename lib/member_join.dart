@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:open_file/open_file.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MemberJoinPage extends StatefulWidget {
   const MemberJoinPage({Key? key}) : super(key: key);
@@ -177,48 +176,6 @@ class MemberJoinPageState extends State<MemberJoinPage> {
     }
   }
 
-  Future<void> _sendWhatsApp(String message) async {
-    final String phoneNumber =
-        '+90xxxxxxxxxx'; // Replace with your phone number
-    final String url = 'https://wa.me/$phoneNumber?text=$message';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text(
-            'WhatsApp açılmadı',
-            style: TextStyle(color: Colors.white),
-          ),
-          backgroundColor: Colors.black,
-        ),
-      );
-    }
-  }
-
-  Future<void> _sendEmail(String filePath) async {
-    final Uri emailUri = Uri(
-      scheme: 'mailto',
-      path: 'arifkerem71@gmail.com',
-      query:
-          'subject=Üyelik Formu&body=Lütfen ekli PDF dosyasını inceleyin.%0D%0A%0D%0A$filePath',
-    );
-
-    if (await canLaunch(emailUri.toString())) {
-      await launch(emailUri.toString());
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text(
-            'E-posta uygulaması açılamadı',
-            style: TextStyle(color: Colors.white),
-          ),
-          backgroundColor: Colors.black,
-        ),
-      );
-    }
-  }
-
   void _openPDF() {
     if (_pdfFilePath != null) {
       OpenFile.open(_pdfFilePath);
@@ -246,18 +203,30 @@ class MemberJoinPageState extends State<MemberJoinPage> {
         title: const Text('Topluluğa Üye Olma'),
         backgroundColor: Colors.blueAccent,
       ),
-      body: Padding(
+      body: Container(
+        // Buraya LinearGradient ekliyoruz
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft, // Sol üst köşeden başlayacak
+            end: Alignment.bottomRight, // Sağ alt köşeye kadar gidecek
+            colors: [
+              Color.fromRGBO(75, 0, 130, 1), // Mor renk (RGB değeriyle)
+              Color.fromRGBO(0, 0, 255, 1), // Mavi renk (RGB değeriyle)
+            ],
+          ),
+        ),
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Buradaki diğer form elemanları ve butonlar
               const Text(
                 'Üyelik Bilgileri',
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
-                  color: Colors.blueAccent,
+                  color: Colors.white, // Beyaz renk, çünkü arka plan koyu
                 ),
               ),
               const SizedBox(height: 16.0),
@@ -290,7 +259,7 @@ class MemberJoinPageState extends State<MemberJoinPage> {
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
-                  color: Colors.blueAccent,
+                  color: Colors.white, // Beyaz renk
                 ),
               ),
               const SizedBox(height: 12.0),
@@ -337,20 +306,7 @@ class MemberJoinPageState extends State<MemberJoinPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        _sendWhatsApp(
-                            'Üyelik kaydınızı tamamladım. PDF dosyasını göndermek için arifkerem71@gmail.com adresine gönderebilirsiniz.');
-                      },
-                      child: const Text('WhatsApp ile Gönder'),
-                    ),
-                    const SizedBox(width: 16),
-                    ElevatedButton(
-                      onPressed: () {
-                        _sendEmail(_pdfFilePath!);
-                      },
-                      child: const Text('E-posta ile Gönder'),
-                    ),
+                    // WhatsApp ile gönder butonu kaldırıldı
                   ],
                 ),
               ]
@@ -369,12 +325,20 @@ class MemberJoinPageState extends State<MemberJoinPage> {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
-        labelText: labelText,
+        labelText: controller.text.isEmpty
+            ? labelText
+            : null, // Etiket, alan boşsa görünür
         prefixIcon: Icon(icon),
+        filled: true,
+        fillColor: Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
       ),
+      onChanged: (value) {
+        setState(
+            () {}); // TextField'da değişiklik olduğunda etiketin durumunu güncelle
+      },
     );
   }
 }

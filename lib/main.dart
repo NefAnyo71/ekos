@@ -201,6 +201,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 _buildGridButton(
                   context,
+                  'Topluluğa Üye Olma',
+                  Icons.group_add,
+                  const MemberJoinPage(),
+                ),
+                _buildGridButton(
+                  context,
                   'Topluluk Haberleri',
                   Icons.newspaper,
                   CommunityNewsPage(),
@@ -282,12 +288,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   'Anket Butonu',
                   Icons.poll,
                   SurveyPage(),
-                ),
-                _buildGridButton(
-                  context,
-                  'Topluluğa Üye Olma',
-                  Icons.group_add,
-                  const MemberJoinPage(),
                 ),
                 _buildGridButton(
                   context,

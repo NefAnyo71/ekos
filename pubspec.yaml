@@ -51,6 +51,7 @@ flutter:
     - assets/videos/spinningfish.mp4
     - assets/images/güven_aralığı.png
     - assets/images/guide1.png
+    - assets/images/guide2.png
 
 flutter_icons:
   android: true
