@@ -1,38 +1,119 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
-  <base href="$FLUTTER_BASE_HREF">
-
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
-
-  <!-- iOS meta tags & icons -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="ekos">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
-
-  <title>ekos</title>
-  <link rel="manifest" href="manifest.json">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kırıkkale Üniversitesi Ekonometri ve E-Spor Topluluğu</title>
+    <link rel="stylesheet" href="/ekos/web/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="/ekos/web/assets/images/iconlogo.png">
 </head>
 <body>
-  <script src="flutter_bootstrap.js" async></script>
+    <nav class="navbar">
+        <div class="nav-brand">Kırıkkale Üniversitesi Ekonometri ve E-Spor Topluluğu</div>
+        <ul class="nav-links">
+            <li><a href="#home">Ana Sayfa</a></li>
+            <li><a href="#about">Hakkımızda</a></li>
+            <li><a href="#activities">Etkinlikler</a></li>
+            <li><a href="#contact">İletişim</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="home" class="hero">
+            <h1>Kırıkkale Üniversitesi<br>Ekonometri ve E-Spor Topluluğu</h1>
+            <p>Ekonometri ve E-Spor dünyasını bir araya getiren öğrenci topluluğu</p>
+            <button id="cta-button">
+                <i class="fas fa-gamepad"></i> Bize Katılın
+            </button>
+        </section>
+
+        <section id="about" class="content-section">
+            <h2>Hakkımızda</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <h3><i class="fas fa-chart-line"></i> Ekonometri</h3>
+                    <p>Ekonometri bölümü öğrencileri olarak, veri analizi ve ekonomik modelleme konularında akademik çalışmalar yürütüyor, seminerler düzenliyor ve sektör profesyonelleriyle bir araya geliyoruz.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><i class="fas fa-trophy"></i> E-Spor</h3>
+                    <p>Üniversitemizin e-spor ekibi olarak League of Legends, Valorant, CS:GO gibi oyunlarda turnuvalar düzenliyor ve üniversiteler arası müsabakalara katılıyoruz.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><i class="fas fa-bullseye"></i> Topluluk Vizyonumuz</h3>
+                    <p>Ekonometri ve e-spor alanlarını birleştirerek, analitik düşünce ve stratejik oyun becerilerini geliştirmeyi hedefliyoruz.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="activities" class="content-section">
+            <h2>Etkinliklerimiz</h2>
+            <div class="activities-grid">
+                <div class="activity-card">
+                    <h3><i class="fas fa-graduation-cap"></i> Akademik Etkinlikler</h3>
+                    <ul>
+                        <li>Veri Analizi Workshops</li>
+                        <li>Ekonometri Seminerleri</li>
+                        <li>Kariyer Günleri</li>
+                        <li>Sektör Buluşmaları</li>
+                    </ul>
+                </div>
+                <div class="activity-card">
+                    <h3><i class="fas fa-medal"></i> E-Spor Etkinlikleri</h3>
+                    <ul>
+                        <li>Aylık Turnuvalar</li>
+                        <li>Takım Seçmeleri</li>
+                        <li>Oyun Stratejileri Eğitimi</li>
+                        <li>Üniversiteler Arası Turnuvalar</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- QR Kodu Bölümü -->
+        <section id="qr-section" class="content-section">
+            <h2>Ekos Android Uygulaması</h2>
+            <div class="qr-container">
+                <img src="/ekos/web/assets/images/scanme.png" alt="QR Kodunu Tara" class="qr-image">
+            </div>
+        </section>
+
+        <section id="contact" class="content-section">
+            <h2>İletişim</h2>
+            <form id="contact-form">
+                <input type="text" placeholder="Adınız Soyadınız" required>
+                <input type="email" placeholder="E-posta Adresiniz" required>
+                <select name="topic" required>
+                    <option value="">Konu Seçiniz</option>
+                    <option value="ekonometri">Ekonometri</option>
+                    <option value="esports">E-Spor</option>
+                    <option value="membership">Üyelik</option>
+                    <option value="other">Diğer</option>
+                </select>
+                <textarea placeholder="Mesajınız" required></textarea>
+                <button type="submit"><i class="fas fa-paper-plane"></i> Mesaj Gönder</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4><i class="fas fa-map-marker-alt"></i> Adres</h4>
+                <p>Kırıkkale Üniversitesi<br>İktisadi ve İdari Bilimler Fakültesi<br>Ekonometri Bölümü</p>
+            </div>
+            <div class="footer-section">
+                <h4><i class="fas fa-share-alt"></i> Sosyal Medya</h4>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i> Instagram</a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i> Twitter</a>
+                    <a href="#" class="social-link"><i class="fab fa-discord"></i> Discord</a>
+                </div>
+            </div>
+        </div>
+        <p class="copyright">&copy; 2024 KKÜ Ekonometri ve E-Spor Topluluğu. Tüm hakları saklıdır.</p>
+    </footer>
+
+    <script type="module" src="/ekos/web/main.js"></script>
 </body>
 </html>
