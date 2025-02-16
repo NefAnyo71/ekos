@@ -52,6 +52,11 @@ flutter:
     - assets/images/güven_aralığı.png
     - assets/images/guide1.png
     - assets/images/guide2.png
+    - assets/images/avast.png
+    - assets/images/bit.png   
+    - assets/images/avg.png
+    - assets/images/kaspersky.png
+    
 
 flutter_icons:
   android: true

@@ -25,6 +25,7 @@ import 'partnerships.dart';
 import 'lessons.dart';
 import 'calculator_page.dart';
 import 'user_guide.dart';
+import 'anti_virus_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -324,6 +325,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   'Hesap Makinesi',
                   Icons.calculate,
                   const CalculatorPage(),
+                ),
+                _buildGridButton(
+                  context,
+                  'Anti Virüs Programı',
+                  Icons.security,
+                  AntiVirusPage(),
                 ),
               ],
             ),
