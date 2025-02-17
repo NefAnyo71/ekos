@@ -26,6 +26,7 @@ import 'lessons.dart';
 import 'calculator_page.dart';
 import 'user_guide.dart';
 import 'anti_virus_page.dart';
+import 'CommunityChatPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -331,6 +332,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   'Anti Virüs Programı',
                   Icons.security,
                   AntiVirusPage(),
+                ),
+                _buildGridButton(
+                  context,
+                  'Topluluk Sohbeti',
+                  Icons.chat,
+                  CommunityChatPage(),
                 ),
               ],
             ),
