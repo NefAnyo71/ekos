@@ -26,6 +26,7 @@ This Flutter-based mobile application is developed for the Kırıkkale Universit
 - **Offline Mode**: Some features available without an internet connection.
 - **Partnerships**: Learn about the community's collaborations and partnerships.
 - **Update**: Check for the latest updates and improvements in the app.
+- ** CommunityChat**:You can send messages to the community chat and ask questions.
 
 ## Technologies
 
