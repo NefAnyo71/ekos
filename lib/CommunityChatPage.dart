@@ -1,185 +1,208 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
+import 'loginChatPage.dart'; // LoginPage'e gitmek için gerekli import
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async'; // Timer için gerekli import
 
-class CommunityChatPage extends StatelessWidget {
-  const CommunityChatPage({Key? key}) : super(key: key);
+class CommunityChatPage extends StatefulWidget {
+  @override
+  _CommunityChatPageState createState() => _CommunityChatPageState();
+}
+
+class _CommunityChatPageState extends State<CommunityChatPage> {
+  final TextEditingController _messageController = TextEditingController();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  String _userFullName = '';
+  bool _showWelcomeMessage =
+      true; // Hoşgeldiniz mesajının görünürlüğü için değişken
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserInfo();
+    _hideWelcomeMessage(); // Hoşgeldiniz mesajını gizleyecek fonksiyonu çağır
+  }
+
+  // Kullanıcı adını SharedPreferences'ten alıyoruz
+  Future<void> _loadUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _userFullName = prefs.getString('fullName') ?? 'Misafir';
+    });
+  }
+
+  // Hoşgeldiniz mesajını gizleme fonksiyonu
+  void _hideWelcomeMessage() {
+    Timer(Duration(seconds: 5), () {
+      setState(() {
+        _showWelcomeMessage = false;
+      });
+    });
+  }
+
+  // Mesajı Firestore'a gönderme fonksiyonu
+  Future<void> _sendMessage() async {
+    if (_messageController.text.isNotEmpty) {
+      await _firestore.collection('messages').add({
+        'message': _messageController.text,
+        'sender': _userFullName,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+      _messageController.clear();
+    }
+  }
+
+  // Firestore'dan mesajları almak için StreamBuilder
+  Stream<List<Map<String, dynamic>>> _getMessages() {
+    return _firestore
+        .collection('messages') // Koleksiyon adı 'messages' olarak güncelledik
+        .orderBy('timestamp', descending: true) // Zaman damgasına göre sıralama
+        .snapshots() // Firestore'dan veri akışını alır
+        .map((querySnapshot) => querySnapshot.docs
+            .map((doc) => {
+                  'message': doc['message'],
+                  'sender': doc['sender'],
+                  'timestamp': doc['timestamp'],
+                })
+            .toList());
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Topluluk Sohbeti',
-          style: TextStyle(
-            fontSize: 25.0,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 2.0,
-            color: Colors.white,
+        title: Text('Topluluk Sohbeti'),
+        backgroundColor: Colors.blueAccent,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () {
+              // LoginPage'e yönlendirme işlemi
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => LoginPage()),
+              );
+            },
           ),
-        ),
-        backgroundColor: const Color(0xFF4A90E2),
-        elevation: 6.0,
-        centerTitle: true,
+        ],
       ),
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFF4A90E2),
-              Color(0xFFFFA500),
-              Color(0xFFFFD700),
-              Color(0xFFFF0000),
-            ],
+            colors: [Colors.purple.shade300, Colors.blue.shade600],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            // Kullanıcıyı karşılama mesajı
+            if (_showWelcomeMessage)
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  'Hoşgeldiniz, $_userFullName!',
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
+              ),
+            // Mesajları görüntüleyen StreamBuilder
             Expanded(
-              child: MessageList(),
+              child: StreamBuilder<List<Map<String, dynamic>>>(
+                stream: _getMessages(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Hata: ${snapshot.error}'));
+                  }
+
+                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Center(child: Text('Henüz mesaj yok.'));
+                  }
+
+                  return ListView.builder(
+                    reverse: true, // En son mesaj üstte görünsün
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      var message = snapshot.data![index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Align(
+                          alignment: message['sender'] == _userFullName
+                              ? Alignment.centerRight
+                              : Alignment.centerLeft,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 15),
+                            decoration: BoxDecoration(
+                              color: message['sender'] == _userFullName
+                                  ? Colors.blueAccent
+                                  : Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  message['sender'],
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: message['sender'] == _userFullName
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  message['message'],
+                                  style: TextStyle(
+                                      color: message['sender'] == _userFullName
+                                          ? Colors.white
+                                          : Colors.black87),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
-            MessageInput(),
+            // Mesaj gönderme kısmı
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _messageController,
+                      style: TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        labelText: 'Mesajınızı yazın...',
+                        labelStyle: TextStyle(color: Colors.white),
+                        filled: true,
+                        fillColor:
+                            Colors.black.withOpacity(0.8), // Siyah arka plan
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.send, color: Colors.white),
+                    onPressed: _sendMessage,
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class MessageList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance
-          .collection('messages')
-          .orderBy('timestamp', descending: true)
-          .snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
-        }
-        var messages = snapshot.data?.docs ?? [];
-        return ListView.builder(
-          reverse: true,
-          itemCount: messages.length,
-          itemBuilder: (context, index) {
-            var message = messages[index];
-            return Container(
-              margin:
-                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
-              padding: const EdgeInsets.all(12.0),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFF7C4DFF), Color(0xFF18FFFF)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(10.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color.fromRGBO(0, 0, 0, 0.2),
-                    blurRadius: 6.0,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    message['text'],
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 6.0),
-                  Text(
-                    DateFormat('hh:mm a').format(
-                      (message['timestamp'] as Timestamp).toDate(),
-                    ),
-                    style: const TextStyle(
-                      color: Colors.white70,
-                      fontSize: 12.0,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-}
-
-class MessageInput extends StatefulWidget {
-  @override
-  _MessageInputState createState() => _MessageInputState();
-}
-
-class _MessageInputState extends State<MessageInput> {
-  final TextEditingController _controller = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: const Color.fromRGBO(0, 0, 0, 0.1),
-            blurRadius: 8.0,
-            offset: const Offset(0, -2),
-          ),
-        ],
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20.0),
-          topRight: Radius.circular(20.0),
-        ),
-      ),
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: const Color(0xFFF0F0F0),
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: TextField(
-                controller: _controller,
-                decoration: InputDecoration(
-                  hintText: 'Mesajınızı yazın...',
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 8.0),
-          Container(
-            decoration: BoxDecoration(
-              color: const Color(0xFF4A90E2),
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            child: IconButton(
-              icon: const Icon(Icons.send, color: Colors.white),
-              onPressed: () {
-                if (_controller.text.isNotEmpty) {
-                  FirebaseFirestore.instance.collection('messages').add({
-                    'text': _controller.text,
-                    'timestamp': FieldValue.serverTimestamp(),
-                  });
-                  _controller.clear();
-                }
-              },
-            ),
-          ),
-        ],
       ),
     );
   }

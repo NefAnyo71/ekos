@@ -41,3 +41,7 @@ flutter {
 
 // Google hizmetleri eklentisini uygulayın
 apply plugin: 'com.google.gms.google-services'
+
+dependencies {
+  implementation 'com.google.android.gms:play-services-auth:19.2.0'  // Google SignIn SDK
+}

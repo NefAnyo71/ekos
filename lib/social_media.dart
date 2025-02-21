@@ -1,32 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
+import 'package:flutter/widgets.dart';
 
-class SocialMediaPage extends StatefulWidget {
+class SocialMediaPage extends StatelessWidget {
   const SocialMediaPage({super.key});
-
-  @override
-  _SocialMediaPageState createState() => _SocialMediaPageState();
-}
-
-class _SocialMediaPageState extends State<SocialMediaPage> {
-  late VideoPlayerController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = VideoPlayerController.asset('assets/videos/spinningfish.mp4')
-      ..initialize().then((_) {
-        setState(() {});
-        _controller.setLooping(true);
-        _controller.play();
-      });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,36 +15,34 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFF8A2BE2), // Electric Indigo
-              Color(0xFF00FFFF), // Aqua
-              Color(0xFFFF00FF), // Fuchsia
+              Color(0xFF6A0DAD), // Daha koyu mor
+              Color(0xFF00CED1), // Koyu turkuaz
+              Color(0xFFFF1493), // Canlı pembe
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            stops: [0.0, 0.5, 1.0],
-            tileMode: TileMode.clamp,
           ),
         ),
         child: Stack(
           children: [
+            // GIF'i Ortaya Yerleştirmek
             Center(
-              child: _controller.value.isInitialized
-                  ? AspectRatio(
-                      aspectRatio: _controller.value.aspectRatio,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child: VideoPlayer(_controller),
-                      ),
-                    )
-                  : const CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    ),
+              child: Image.asset(
+                'assets/gifs/spinningfish.gif',
+                width: 300.0, // Gif'in genişliği (büyütüldü)
+                height: 300.0, // Gif'in yüksekliği (büyütüldü)
+              ),
             ),
             Align(
               alignment: Alignment.topCenter,
               child: Container(
                 padding: const EdgeInsets.all(16.0),
-                color: Colors.black.withOpacity(0.4), // %40 saydamlık
+                margin: const EdgeInsets.symmetric(
+                    horizontal: 10.0, vertical: 20.0),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 child: const Text(
                   'İnstagram ve WhatsApp hesap yönetiminden anlayan, sosyal medya yeteneğine sahip bir yönetici aranıyor. Kurucu ekibimize katılmak için başvurun!',
                   textAlign: TextAlign.center,
@@ -84,12 +58,17 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 padding: const EdgeInsets.all(16.0),
-                color: Colors.black.withOpacity(0.4), // %40 saydamlık
+                margin: const EdgeInsets.symmetric(
+                    horizontal: 10.0, vertical: 20.0),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Text(
-                      'Balığı durdurmak için lütfen başvurun!',
+                      'Balığı durduramazsınız, lütfen başvurun!',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,

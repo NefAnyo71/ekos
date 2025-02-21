@@ -38,6 +38,12 @@ class UserGuidePage extends StatelessWidget {
                   'assets/images/guide1.png',
                   'Uygulamayı güncellemek için öncelikle güncelleme butonuna tıklayıp güncel sürümünüzü öğrenin. Eğer yeni sürüm var ise uygulamanızı güncellemeniz gerekmektedir.',
                 ),
+                const SizedBox(height: 20),
+                _buildGuideCard(
+                  context,
+                  'assets/images/communitychat.png',
+                  'Topluluk sayfasını nasıl kullanacağınızı bu görselde detaylıca inceleyebilirsiniz.',
+                ),
               ],
             ),
           ),
