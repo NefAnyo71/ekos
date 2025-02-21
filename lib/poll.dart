@@ -38,11 +38,32 @@ class _SurveyPageState extends State<SurveyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Anket Sayfası'),
-        backgroundColor: Colors.deepPurple,
+        title: const Text(
+          'Anket Sayfası',
+          style: TextStyle(
+            fontSize: 25.0,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 2.0,
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: const Color(0xFF4A90E2),
+        elevation: 6.0,
+        centerTitle: true,
       ),
       body: Container(
-        color: Colors.white,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFF4A90E2),
+              Color(0xFFFFA500),
+              Color(0xFFFFD700),
+              Color(0xFFFF0000),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
@@ -60,8 +81,8 @@ class _SurveyPageState extends State<SurveyPage> {
                         'Anketler anonimdir. Yaptığınız anketlerin sonuçları sadece yöneticiler ile paylaşılmaktadır. Kırıkkale Üniversitesi Ekonometri ve E-Spor Topluluğu',
                         style: TextStyle(fontSize: 16.0, color: Colors.black),
                       ),
-                      SizedBox(height: 20),
-                      Text(
+                      const SizedBox(height: 20),
+                      const Text(
                         'Mobil Uygulama Hakkında',
                         style: TextStyle(
                           fontSize: 20.0,
@@ -69,8 +90,8 @@ class _SurveyPageState extends State<SurveyPage> {
                           color: Colors.deepPurple,
                         ),
                       ),
-                      SizedBox(height: 10),
-                      Text(
+                      const SizedBox(height: 10),
+                      const Text(
                         'Uygulamayı nasıl değerlendiriyorsunuz?',
                         style: TextStyle(color: Colors.black),
                       ),
@@ -89,7 +110,7 @@ class _SurveyPageState extends State<SurveyPage> {
                                     });
                                   },
                                 ),
-                                Text('Çok İyi',
+                                const Text('Çok İyi',
                                     style: TextStyle(color: Colors.black)),
                               ],
                             ),
@@ -104,7 +125,7 @@ class _SurveyPageState extends State<SurveyPage> {
                                     });
                                   },
                                 ),
-                                Text('İyi',
+                                const Text('İyi',
                                     style: TextStyle(color: Colors.black)),
                               ],
                             ),
@@ -119,7 +140,7 @@ class _SurveyPageState extends State<SurveyPage> {
                                     });
                                   },
                                 ),
-                                Text('Orta',
+                                const Text('Orta',
                                     style: TextStyle(color: Colors.black)),
                               ],
                             ),
@@ -134,15 +155,15 @@ class _SurveyPageState extends State<SurveyPage> {
                                     });
                                   },
                                 ),
-                                Text('Kötü',
+                                const Text('Kötü',
                                     style: TextStyle(color: Colors.black)),
                               ],
                             ),
                           ],
                         ),
                       ),
-                      SizedBox(height: 20),
-                      Text(
+                      const SizedBox(height: 20),
+                      const Text(
                         'Topluluk Hakkında',
                         style: TextStyle(
                           fontSize: 20.0,
@@ -150,8 +171,8 @@ class _SurveyPageState extends State<SurveyPage> {
                           color: Colors.deepPurple,
                         ),
                       ),
-                      SizedBox(height: 10),
-                      Text(
+                      const SizedBox(height: 10),
+                      const Text(
                         'Topluluk hakkında geri bildiriminiz nedir?',
                         style: TextStyle(color: Colors.black),
                       ),
@@ -169,8 +190,8 @@ class _SurveyPageState extends State<SurveyPage> {
                           });
                         },
                       ),
-                      SizedBox(height: 20),
-                      Text(
+                      const SizedBox(height: 20),
+                      const Text(
                         'Uygulamanın geliştirilmesi için önerileriniz nelerdir?',
                         style: TextStyle(color: Colors.black),
                       ),
@@ -188,8 +209,8 @@ class _SurveyPageState extends State<SurveyPage> {
                           });
                         },
                       ),
-                      SizedBox(height: 20),
-                      Text(
+                      const SizedBox(height: 20),
+                      const Text(
                         'Son katıldığınız etkinlik hakkında geri bildiriminiz nedir?',
                         style: TextStyle(color: Colors.black),
                       ),
@@ -207,24 +228,43 @@ class _SurveyPageState extends State<SurveyPage> {
                           });
                         },
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Center(
-                        child: ElevatedButton(
-                          onPressed: () {
+                        child: GestureDetector(
+                          onTap: () {
                             if (_formKey.currentState?.validate() == true) {
                               _submitSurvey();
                             }
                           },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.deepPurple,
-                            foregroundColor: Colors.white,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 32.0, vertical: 12.0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [Color(0xFF7C4DFF), Color(0xFF18FFFF)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(20.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color.fromRGBO(0, 0, 0, 0.3),
+                                  blurRadius: 8.0,
+                                  offset: const Offset(0, 6),
+                                ),
+                              ],
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 15.0, horizontal: 30.0),
+                            margin: const EdgeInsets.symmetric(vertical: 10.0),
+                            child: const Text(
+                              'Anketi Kaydet',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
-                          child: Text('Anketi Kaydet'),
                         ),
                       ),
                     ],

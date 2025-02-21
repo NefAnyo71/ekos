@@ -42,24 +42,43 @@ class EventsCalendarPageState extends State<EventsCalendarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Etkinlik Takvimi'),
-        backgroundColor: Colors.blue, // Arka plan rengini mavi yaptık
+        title: const Text(
+          'Etkinlik Takvimi',
+          style: TextStyle(
+            fontSize: 22.0,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.5,
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: const Color(0xFF4A90E2),
+        elevation: 6.0,
+        centerTitle: true,
       ),
-      body: _eventsList.isEmpty
-          ? const Center(
-              child: CircularProgressIndicator()) // Yükleniyor göstergesi
-          : ListView.builder(
-              padding: const EdgeInsets.all(16.0),
-              itemCount: _eventsList.length,
-              itemBuilder: (context, index) {
-                return _buildEventCard(
-                  context,
-                  _eventsList[index]["title"] ?? "",
-                  _eventsList[index]["date"] ?? "",
-                  _eventsList[index]["details"] ?? "",
-                );
-              },
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blue.shade200, Colors.blue.shade100],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: _eventsList.isEmpty
+            ? const Center(
+                child: CircularProgressIndicator()) // Yükleniyor göstergesi
+            : ListView.builder(
+                padding: const EdgeInsets.all(16.0),
+                itemCount: _eventsList.length,
+                itemBuilder: (context, index) {
+                  return _buildEventCard(
+                    context,
+                    _eventsList[index]["title"] ?? "",
+                    _eventsList[index]["date"] ?? "",
+                    _eventsList[index]["details"] ?? "",
+                  );
+                },
+              ),
+      ),
     );
   }
 
@@ -79,24 +98,28 @@ class EventsCalendarPageState extends State<EventsCalendarPage> {
         );
       },
       child: Card(
-        elevation: 8,
-        margin: const EdgeInsets.symmetric(vertical: 10),
+        elevation: 10,
+        margin: const EdgeInsets.symmetric(vertical: 12),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius:
+              BorderRadius.circular(20), // Kartın köşelerini yuvarlatma
         ),
+        color: Colors.white,
+        shadowColor: Colors.black.withOpacity(0.2),
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(18.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
                 style: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blueAccent),
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueAccent,
+                ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 8),
               Row(
                 children: [
                   const Icon(Icons.calendar_today, color: Colors.grey),
@@ -136,38 +159,56 @@ class EventDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Etkinlik Detayları'),
-        backgroundColor: Colors.blue, // Arka plan rengini mavi yaptık
+        title: const Text(
+          'Etkinlik Detayları',
+          style: TextStyle(
+            fontSize: 22.0,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.5,
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: const Color(0xFF4A90E2),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blue.shade200, Colors.blue.shade100],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
-                  color: Colors.blueAccent),
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                const Icon(Icons.calendar_today, color: Colors.grey),
-                const SizedBox(width: 8),
-                Text(
-                  date,
-                  style: const TextStyle(fontSize: 20, color: Colors.grey),
+                  color: Colors.blueAccent,
                 ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Text(
-              details,
-              style: const TextStyle(fontSize: 20, color: Colors.black87),
-            ),
-          ],
+              ),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  const Icon(Icons.calendar_today, color: Colors.grey),
+                  const SizedBox(width: 8),
+                  Text(
+                    date,
+                    style: const TextStyle(fontSize: 20, color: Colors.grey),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Text(
+                details,
+                style: const TextStyle(fontSize: 20, color: Colors.black87),
+              ),
+            ],
+          ),
         ),
       ),
     );
