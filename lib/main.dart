@@ -27,6 +27,7 @@ import 'calculator_page.dart';
 import 'user_guide.dart';
 import 'anti_virus_page.dart';
 import 'CommunityChatPage.dart';
+import 'admin_panel_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -338,6 +339,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   'Topluluk Sohbeti',
                   Icons.chat,
                   CommunityChatPage(),
+                ),
+                _buildGridButton(
+                  context,
+                  'Yönetici Paneli',
+                  Icons.admin_panel_settings,
+                  AdminPanelPage(),
                 ),
               ],
             ),

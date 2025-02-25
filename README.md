@@ -27,6 +27,7 @@ This Flutter-based mobile application is developed for the Kırıkkale Universit
 - **Partnerships**: Learn about the community's collaborations and partnerships.
 - **Update**: Check for the latest updates and improvements in the app.
 - **Community Chat**: You can send messages to the community chat and ask questions.
+- **Admin Panel**:An admin panel that allows administrators to manage JSON data without using Firebase, including chat management, deleting messages and news, blocking users, and deleting their messages.I apologize for taking up your time; since you're not an administrator, it doesn't really concern you.
 
 ## Technologies
 
