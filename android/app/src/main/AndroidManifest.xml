@@ -55,7 +55,7 @@
             <data android:mimeType="text/plain"/>
         </intent>
 
-        <!-- SMS desteği -->
+        <!-- SMS Desteği Bütcemiz Yetmedi Ama Yinede Dursun -->
         <intent>
             <action android:name="android.intent.action.VIEW" />
             <data android:scheme="sms" />
@@ -67,12 +67,12 @@
             <data android:scheme="tel" />
         </intent>
 
-        <!-- In-App Browser desteği -->
+        <!-- In-App Browser desteği Malesef Şu Anlık Kullanıma Sunmuyoruz -->
         <intent>
             <action android:name="android.support.customtabs.action.CustomTabsService" />
         </intent>
 
-        <!-- 📩 E-POSTA GÖNDERME DESTEĞİ EKLENDİ -->
+        <!-- 📩 E-POSTA GÖNDERME DESTEĞİ EKLEDİ SONUNDA -->
         <intent>
             <action android:name="android.intent.action.SENDTO" />
             <data android:scheme="mailto" />
