@@ -28,6 +28,7 @@ import 'user_guide.dart';
 import 'anti_virus_page.dart';
 import 'CommunityChatPage.dart';
 import 'admin_panel_page.dart';
+import 'econometrics_course_contents.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -345,6 +346,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   'Yönetici Paneli',
                   Icons.admin_panel_settings,
                   AdminPanelPage(),
+                ),
+                _buildGridButton(
+                  context,
+                  'Ekonometri Ders İçerikleri',
+                  Icons.book, // İlgili bir ikon seçtim
+                  EconometricsCourseContentsPage(),
                 ),
               ],
             ),

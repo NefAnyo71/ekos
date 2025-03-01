@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:open_file/open_file.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart'; // Add this import
 
 class MemberJoinPage extends StatefulWidget {
   const MemberJoinPage({Key? key}) : super(key: key);
@@ -130,7 +131,6 @@ class MemberJoinPageState extends State<MemberJoinPage> {
         ),
       );
 
-      // Temporary directory for storing PDF
       final Directory? directory = await getTemporaryDirectory();
       if (directory == null) {
         throw Exception("Temporary directory is null");
@@ -176,23 +176,44 @@ class MemberJoinPageState extends State<MemberJoinPage> {
     }
   }
 
-  void _openPDF() {
+  void _sendPDFByEmail() async {
     if (_pdfFilePath != null) {
-      OpenFile.open(_pdfFilePath);
+      final Email email = Email(
+        body: 'Üyelik kaydınız için gerekli PDF dosyasını ekte bulabilirsiniz.',
+        subject: 'Üyelik PDF Dosyası',
+        recipients: ['arifkerem71@gmail.com'],
+        attachmentPaths: [_pdfFilePath!],
+        isHTML: false,
+      );
+
+      try {
+        await FlutterEmailSender.send(email);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text(
+              'PDF başarıyla e-posta ile gönderildi.',
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.black,
+          ),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'E-posta gönderilemedi: $e',
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.black,
+          ),
+        );
+      }
     }
   }
 
-  void _savePDF() {
+  void _openPDF() async {
     if (_pdfFilePath != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'PDF başarıyla kaydedildi: $_pdfFilePath',
-            style: const TextStyle(color: Colors.white),
-          ),
-          backgroundColor: Colors.black,
-        ),
-      );
+      await OpenFile.open(_pdfFilePath!);
     }
   }
 
@@ -204,14 +225,13 @@ class MemberJoinPageState extends State<MemberJoinPage> {
         backgroundColor: Colors.blueAccent,
       ),
       body: Container(
-        // Buraya LinearGradient ekliyoruz
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topLeft, // Sol üst köşeden başlayacak
-            end: Alignment.bottomRight, // Sağ alt köşeye kadar gidecek
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
             colors: [
-              Color.fromRGBO(75, 0, 130, 1), // Mor renk (RGB değeriyle)
-              Color.fromRGBO(0, 0, 255, 1), // Mavi renk (RGB değeriyle)
+              Color.fromRGBO(75, 0, 130, 1),
+              Color.fromRGBO(0, 0, 255, 1),
             ],
           ),
         ),
@@ -220,13 +240,12 @@ class MemberJoinPageState extends State<MemberJoinPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Buradaki diğer form elemanları ve butonlar
               const Text(
                 'Üyelik Bilgileri',
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white, // Beyaz renk, çünkü arka plan koyu
+                  color: Colors.white,
                 ),
               ),
               const SizedBox(height: 16.0),
@@ -259,7 +278,7 @@ class MemberJoinPageState extends State<MemberJoinPage> {
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white, // Beyaz renk
+                  color: Colors.white,
                 ),
               ),
               const SizedBox(height: 12.0),
@@ -297,16 +316,9 @@ class MemberJoinPageState extends State<MemberJoinPage> {
                     ),
                     const SizedBox(width: 16),
                     ElevatedButton(
-                      onPressed: _savePDF,
-                      child: const Text('PDF Kaydet'),
+                      onPressed: _sendPDFByEmail, // Add send email button
+                      child: const Text('PDF Gönder'),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // WhatsApp ile gönder butonu kaldırıldı
                   ],
                 ),
               ]
@@ -325,9 +337,7 @@ class MemberJoinPageState extends State<MemberJoinPage> {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
-        labelText: controller.text.isEmpty
-            ? labelText
-            : null, // Etiket, alan boşsa görünür
+        labelText: controller.text.isEmpty ? labelText : null,
         prefixIcon: Icon(icon),
         filled: true,
         fillColor: Colors.white,
@@ -336,8 +346,7 @@ class MemberJoinPageState extends State<MemberJoinPage> {
         ),
       ),
       onChanged: (value) {
-        setState(
-            () {}); // TextField'da değişiklik olduğunda etiketin durumunu güncelle
+        setState(() {});
       },
     );
   }
